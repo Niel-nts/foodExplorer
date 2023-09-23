@@ -1,6 +1,6 @@
 import { Container} from "./styles"
 
-export function Button({title, loading=false, ...rest}){
+export function Button({title, loading=false, onPress}){
     return(
         <Container type="button" disable={loading} onClick={onPress}>
             {loading ? 'Carregando...' : title}

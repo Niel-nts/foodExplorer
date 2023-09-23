@@ -10,6 +10,8 @@ import { useState } from "react";
 import { useAuth } from "../../hooks/auth";
 
 export function New(){
+    const [title, setTitle] = useState("")
+    const [description, setDescription] = useState("")
     const [links, setLinks] = useState([])
     const [newLink, setNewLink] = useState("")
     const [tags, setTags] = useState([])
@@ -58,8 +60,8 @@ export function New(){
                         <h1>Criar nota</h1>
                         <Link to="/">Voltar</Link>
                     </header>
-                    <Input placeholder="Título"/>
-                    <TextArea placeholder="Observações"/>
+                    <Input placeholder="Título" onChange={e=>setTitle(e.target.value)}/>
+                    <TextArea placeholder="Observações" onChange={e=>setDescription(e.target.value)}/>
                     <Section title="Links úteis">
                         {links.map((link, index)=>(
                             <NoteItem 

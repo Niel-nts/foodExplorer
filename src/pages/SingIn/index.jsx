@@ -32,7 +32,7 @@ export function SingIn(){
                     }
                 />
                 <Button title="Entrar" onPress={handleSignIn}/>
-                <Link href="#">Criar conta</Link>
+                <Link to="/register">Criar conta</Link>
             </Form>
             <BackgroundImg/>
         </Container>

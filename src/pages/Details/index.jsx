@@ -64,10 +64,7 @@ export function Details(){
               ))}
           </Section>
           }
-          <Section title="Marcadores">
-            <Tag title="Express"/>
-            <Tag title="Node"/>
-          </Section>
+          
           <Button title="Voltar" onPress={handleBack}/>
         </Content>
       </main>

@@ -1,7 +1,4 @@
 import { useState } from "react";
-const [name, setName]= useState("")
-const [email, setEmail]= useState("")
-const [password, setPassword]= useState("")
 import { FiLock, FiMail, FiUser } from "react-icons/fi";
 import { Input } from "../../components/Input";
 import { BackgroundImg, Container, Form } from "./styles";
@@ -10,8 +7,12 @@ import { Link, useNavigate } from "react-router-dom"
 import { api } from "../../services/api";
 
 export function SingUp(){
+    const [name, setName]= useState("")
+    const [email, setEmail]= useState("")
+    const [password, setPassword]= useState("")
+    const navigate = useNavigate()
+    
     function handleSignUp(){
-        const navigate = useNavigate()
         if(!name || !email || !password){
             return alert("Preencha todos os campos!")
         }
@@ -54,7 +55,7 @@ export function SingUp(){
                     onPress={handleSignUp}
                 />
 
-                <Link href="#">Voltar para o Login</Link>
+                <Link to="/">Voltar para o Login</Link>
             </Form>
         </Container>
     )

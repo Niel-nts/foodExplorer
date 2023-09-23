@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { Section } from '../../components/Section'
 import {Note} from '../../components/Note'
 import { useNavigate } from 'react-router-dom'
+import { api } from '../../services/api'
 
 export function Home(){
     const [tags, setTags] = useState([])
@@ -28,7 +29,7 @@ export function Home(){
     useEffect(()=>{
         async function fetchNotes(){
             const response = await api.get(`/notes?title=${search}&tags=${tagsSelected}`)
-            setTags(response.data)
+            setNotes(response.data)
         }
 
         fetchNotes()
