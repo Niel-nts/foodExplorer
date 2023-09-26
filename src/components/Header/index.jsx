@@ -1,33 +1,44 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
-import { Container, Profile, Logout } from "./styles";
-import { RiShutDownLine } from 'react-icons/ri'
+import { Container, Logout, BackgroundImg, Search } from "./styles";
+import { FiSearch } from 'react-icons/fi'
+import { MdOutlineLogout } from 'react-icons/md'
+import { VscListUnordered } from 'react-icons/vsc'
 import { api } from "../../services/api";
-import avatarPlaceholder from '../../assets/avatarPlaceholder.svg'
+import { Button } from '../Button'
+import { Input } from '../Input'
+import { useEffect, useState } from "react";
 
-export function Header(){
+export function Header({isAdmin=false}){
     const {signOut, user} = useAuth()
-    const avatarUrl = user.avatar ? `${api.defaults.baseURL}/files/${user.avatar}` : avatarPlaceholder
+    const [search, setSearch] = useState("")
+    const [tagsSelected, setTagsSelected] = useState([])
     const navigation = useNavigate()
-
     function handleSignOut(){
         navigation("/")
         signOut()
     }
 
+    useEffect(()=>{
+        async function fetchNotes(){
+            const response = await api.get(`/notes?title=${search}&tags=${tagsSelected}`)
+            setNotes(response.data)
+        }
+
+        fetchNotes()
+    }, [tagsSelected, search])
+
     return(
         <Container>
-            <Profile to="/profile">
-                <img src={avatarUrl} alt="Imagem de perfil de usuário" />
-                <div>
-                    <span>
-                        Bem-vindo
-                    </span>
-                    <strong>{user.name}</strong>
-                </div>
-            </Profile>
+            <BackgroundImg/>
+            <Search>
+                <Input placeholder="Busque por pratos ou ingredientes" 
+                onChange={(e)=>setSearch(e.target.value)}
+                icon={FiSearch}/>
+            </Search>
+            <Button title={isAdmin ? "Novo Prato" : "Pedidos (0)"} onPress="" icon={isAdmin ? '' : VscListUnordered}/>
             <Logout onClick={handleSignOut}>
-                <RiShutDownLine/>
+                <MdOutlineLogout/>
             </Logout>
         </Container>
     )

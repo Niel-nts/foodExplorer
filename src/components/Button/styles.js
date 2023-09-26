@@ -2,17 +2,25 @@ import styled from 'styled-components'
 
 export const Container = styled.button`
     width: 100%;
-    background-color: ${({theme}) => theme.COLORS.ORANGE};
-    color: ${({theme}) => theme.COLORS.BACKGROUND_800};
-
-    height: 56px;
+    height: 100%;
     border: 0;
-    padding: 0 16px;
-    margin-top: 16px;
-    border-radius: 10px;
+    border-radius: 5px;
+
+    background-color: ${({theme}) => theme.COLORS.RED};
+    color: ${({theme}) => theme.COLORS.WHITE};
+
     font-weight: 500;
 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
     &:disabled{
         opacity: 0.5;
+    }
+
+    >svg{
+        margin: 0px 16px 0 0px;
     }
 `

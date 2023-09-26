@@ -1,4 +1,3 @@
-import { FiLock, FiMail } from "react-icons/fi";
 import { Input } from "../../components/Input";
 import { BackgroundImg, Container, Form } from "./styles";
 import { Button } from "../../components/Button";
@@ -17,24 +16,24 @@ export function SingIn(){
 
     return(
         <Container>
+            <BackgroundImg/>
             <Form>
-                <h1>Rocket Notes</h1>
-                <p>Aplicação para salvar e gerenciar seus links úteis</p>
-                <h2>Faça seu login</h2>
-                <Input placeholder="Email" type="text" icon={FiMail}
+                <h1>Faça login</h1>
+                <p>Email</p>
+                <Input placeholder="Exemplo: exemplo@exemplo.com.br" type="text" 
                     onChange={
                         e => setEmail(e.target.value)
                     }
-                />
-                <Input placeholder="Senha" type="password" icon={FiLock}
+                    />
+                <p>Senha</p>
+                <Input placeholder="No mínimo 6 caracteres" type="password" 
                     onChange={
                         e => setPassword(e.target.value)
                     }
                 />
                 <Button title="Entrar" onPress={handleSignIn}/>
-                <Link to="/register">Criar conta</Link>
+                <Link to="/register">Criar uma conta</Link>
             </Form>
-            <BackgroundImg/>
         </Container>
     )
 }

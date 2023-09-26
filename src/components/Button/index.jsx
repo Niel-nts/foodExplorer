@@ -1,9 +1,10 @@
 import { Container} from "./styles"
 
-export function Button({title, loading=false, onPress}){
+export function Button({title, onPress, icon: Icon}){
     return(
-        <Container type="button" disable={loading} onClick={onPress}>
-            {loading ? 'Carregando...' : title}
+        <Container type="button" onClick={onPress}>
+            {Icon && <Icon size={20}/>}
+            {title}
         </Container>
     )
 }

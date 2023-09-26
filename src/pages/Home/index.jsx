@@ -1,11 +1,8 @@
-import {Container, Brand, Menu, Search, Content, NewNote } from './Styles'
+import {BackgroundImg, Container, Content } from './Styles'
 import { Header } from '../../components/Header'
-import { ButtonText } from '../../components/ButtonText'
-import {FiPlus, FiSearch} from 'react-icons/fi'
-import { Input } from '../../components/Input'
 import { useEffect, useState } from 'react'
 import { Section } from '../../components/Section'
-import {Note} from '../../components/Note'
+import {Card} from '../../components/Card'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../services/api'
 
@@ -14,6 +11,7 @@ export function Home(){
     const [tagsSelected, setTagsSelected] = useState([])
     const [search, setSearch] = useState("")
     const [notes, setNotes] = useState([])
+    const menuCard = {title: 'Título do prato', description: 'blablabla, bblablabla, blabblabla, blablabbla', price: '49,97', quantity: 1, isAdmin: true}
     const navigate = useNavigate()
 
 
@@ -56,34 +54,35 @@ export function Home(){
 
     return(
         <Container>
-            <Brand>
-                <h1>RocketNotes</h1>
-            </Brand>
-            <Header/>
-            <Menu>
-                <li><ButtonText title="Todos" isActive={tagsSelected.length===0} onClick={()=>handleTagSelected("all")}/></li>
-                {tags && tags.map(tag=>(
-                    <li key={String(tag.id)}><ButtonText title={tag.name} isActive={tagsSelected.includes(tag.name)} onClick={()=>handleTagSelected(tag.name)}/></li>
-                ))}
-            </Menu>
-            <Search>
-                <Input placeholder="Pesquisar pelo título" 
-                onChange={(e)=>setSearch(e.target.value)}
-                icon={FiSearch}/>
-            </Search>
+            <Header isAdmin={menuCard.isAdmin}/>
             <Content>
-                <Section title="Minhas notas">
+                <BackgroundImg/>
+                <Section title="Refeições">
                     {notes.map(note=>(
-                        <Note key={String(note.id)}
+                        <Card key={String(note.id)}
+                        data={note}
+                        id={note.id}/>
+                        ))}
+                        <Card data={menuCard}/>
+                        <Card data={menuCard}/>
+                        <Card data={menuCard}/>
+                        <Card data={menuCard}/>
+                </Section>
+                <Section title="Sobremesas">
+                    {notes.map(note=>(
+                        <Card key={String(note.id)}
+                        data={note}
+                        onClick={()=>handleDetails(note.id)}/>
+                    ))}
+                </Section>
+                <Section title="Bebidas">
+                    {notes.map(note=>(
+                        <Card key={String(note.id)}
                         data={note}
                         onClick={()=>handleDetails(note.id)}/>
                     ))}
                 </Section>
             </Content>
-            <NewNote to="/new">
-                <FiPlus />
-                Criar Nota
-            </NewNote>
         </Container>
     )
 }

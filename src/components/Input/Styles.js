@@ -2,21 +2,20 @@ import styled from "styled-components";
 
 export const Container = styled.div`
     width: 100%;
+    height: 56px;
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
 
-    background-color: ${({theme}) => theme.COLORS.BACKGROUND_900};
+    background-color: ${({theme}) => theme.COLORS.BACKGROUND_INPUT};
     color: ${({theme}) => theme.COLORS.GRAY_300};
 
-    margin-bottom: 8px;
-    border-radius: 10px;
+    border-radius: 5px;
 
     > input {
-        height: 56px;
+        padding: 8px;
         width: 100%;
-
-        padding: 12px;
-
         color: ${({theme}) => theme.COLORS.WHITE};
         background: transparent;
         border: 0;
@@ -27,6 +26,6 @@ export const Container = styled.div`
     }
 
     >svg{
-        margin-left: 16px;
+        margin: 0 0 0 16px;
     }
 `

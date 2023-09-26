@@ -1,4 +1,4 @@
-import {Container, Links, Content} from "./styles.js"
+import {Container, Content} from "./styles.js"
 import { Button } from "../../components/Button/index.jsx"
 import { Header } from "../../components/Header/index.jsx"
 import { Section } from "../../components/Section/index.jsx"
@@ -7,11 +7,14 @@ import { ButtonText } from "../../components/ButtonText/index.jsx"
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { api } from "../../services/api.js"
+import { CountButton } from "../../components/Count/index.jsx" 
 
 export function Details(){
   const params = useParams()
   const [data, setData] = useState(null)
   const navigate = useNavigate()
+  const menuCard = {title: 'Título do prato', description: 'blablabla, bblablabla, blabblabla, blablabbla', price: '49,97', quantity: 1, isAdmin: true}
+  
 
   useEffect(()=>{
     async function fetchNote(){
@@ -35,40 +38,55 @@ export function Details(){
 
   return (
     <Container>
-      <Header/>
-      {
-        data &&
+      <Header isAdmin={menuCard.isAdmin}/>
+      {/* {data &&
       <main>
+          <ButtonText title="Voltar" onPress={handleBack}/>
         <Content>
-          <ButtonText title="Excluir nota" onClick={handleRemove}/>
           <h1>
             {data.title}
           </h1>
           <p>
             {data.description}
           </p>
-          {data.links &&
-          <Section title="Links úteis">
-            <Links>
-            {
-              data.links.map(link=>(
-              <li key={String(link.id)}><a href={link.url} target="_blank">{link.url}</a></li>
-              ))}
-            </Links>
-          </Section>
-          }
           {data.tags &&
-          <Section title="Marcadores">
+          <Section>
             {data.tags.map(tag=>(
-                <Tag key={String(tag.id)} title={tag.name}/>
+              <Tag key={String(tag.id)} title={tag.name}/>
               ))}
           </Section>
           }
+          <ButtonText title="Excluir nota" onClick={handleRemove}/>
           
-          <Button title="Voltar" onPress={handleBack}/>
         </Content>
       </main>
-      }
+      } */}
+      <main>
+        <Content>
+          <ButtonText title="Voltar" onPress={handleBack}/>
+        <div class="menu">
+
+          <div class="description">
+            <h1>
+              Nome da Refeição
+            </h1>
+            <p>
+              Comida feita com tais e tais ingredientes e pá
+            </p>
+            <Section>
+                <Tag title='camarao'/>
+                <Tag title='macarrão'/>
+                <Tag title='pimenta'/>
+            </Section>
+            <div className="buttons">
+              <CountButton/>
+              <Button title={menuCard.isAdmin ? "Editar Prato" : `Incluir - R$ ${menuCard.price}`}/>
+            </div>
+          </div>
+        </div>
+          
+        </Content>
+      </main>
     </Container>
   )
 }

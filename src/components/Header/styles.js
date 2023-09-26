@@ -1,56 +1,46 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom"
+import backgroundImg from '../../assets/backgroundSingIn.png'
 
 export const Container = styled.header`
-    grid-area: header;
-
     height: 105px;
     width: 100%;
-
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: ${({theme}) => theme.COLORS.BACKGROUND_700};
+    background-color: ${({theme}) => theme.COLORS.BACKGROUND_900};
 
     display: flex;
-    justify-content: space-between;
-
-    padding: 0 80px;
-`
-
-export const Profile = styled(Link)`
-    display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    
-    > img {
-        height: 56px;
-        width: 56px;
-        border-radius: 50%;
+
+    padding: 24px 0px;
+
+    >:nth-last-child(2){
+        width: 216px;
     }
 
-    >div {
-        display: flex;
-        flex-direction: column;
-        margin-left: 16px;
-        line-height: 24px;
-
-        span{
-            font-size: 14px;
-            color: ${({theme}) => theme.COLORS.GRAY_100};
-        }
-
-        strong{
-            font-size: 18px;
-            color: ${({theme}) => theme.COLORS.WHITE};
-        }
-    }
 `
 
 export const Logout = styled.button`
     border: none;
     background: none;
+    margin-left: 24px;
 
     > svg {
-        color: ${({theme}) => theme.COLORS.GRAY_100};
+        color: ${({theme}) => theme.COLORS.WHITE};
         font-size: 36px;
     }
+`
+
+export const BackgroundImg = styled.div`
+    flex: 1;
+    height: 30px;
+    max-width: 200px;
+    margin-right: 24px;
+    background: url(${backgroundImg}) no-repeat 0px center;
+    background-size: contain;
+    
+`
+
+export const Search = styled.div`
+    width: 580px;
+    margin-right: 24px;
 `
