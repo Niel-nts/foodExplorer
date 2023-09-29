@@ -5,6 +5,7 @@ import { Section } from '../../components/Section'
 import {Card} from '../../components/Card'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../services/api'
+import { Footer } from '../../components/Footer'
 
 export function Home(){
     const [tags, setTags] = useState([])
@@ -83,6 +84,7 @@ export function Home(){
                     ))}
                 </Section>
             </Content>
+            <Footer/>
         </Container>
     )
 }

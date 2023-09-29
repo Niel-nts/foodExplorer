@@ -4,12 +4,15 @@ export const Container = styled.div`
     width: 100%;
     height: 100vh;
     color: ${({theme}) => theme.COLORS.WHITE};
-`
+    
+    
+    `
 
 
 export const Content = styled.div`
-    padding: 0 64px;
+    padding: 40px 64px 0;
     overflow-y: auto;
+    height: calc(100vh - 105px - 77px);
     width: 1120px;
     margin: 0 auto;
 
@@ -24,6 +27,12 @@ export const Content = styled.div`
         display: flex;
         flex-direction: row;
         align-items: center;
+        margin-top: 40px;
+
+        >img{
+            height: 390px;
+            margin-right: 40px;
+        }
         
         >.description{
             width: 100%;

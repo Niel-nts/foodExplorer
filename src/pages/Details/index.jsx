@@ -7,7 +7,9 @@ import { ButtonText } from "../../components/ButtonText/index.jsx"
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { api } from "../../services/api.js"
-import { CountButton } from "../../components/Count/index.jsx" 
+import { CountButton } from "../../components/Count/index.jsx"
+import exemploprato from '../../assets/exemploprato.png' 
+import { Footer } from "../../components/Footer/index.jsx"
 
 export function Details(){
   const params = useParams()
@@ -39,33 +41,11 @@ export function Details(){
   return (
     <Container>
       <Header isAdmin={menuCard.isAdmin}/>
-      {/* {data &&
-      <main>
-          <ButtonText title="Voltar" onPress={handleBack}/>
-        <Content>
-          <h1>
-            {data.title}
-          </h1>
-          <p>
-            {data.description}
-          </p>
-          {data.tags &&
-          <Section>
-            {data.tags.map(tag=>(
-              <Tag key={String(tag.id)} title={tag.name}/>
-              ))}
-          </Section>
-          }
-          <ButtonText title="Excluir nota" onClick={handleRemove}/>
-          
-        </Content>
-      </main>
-      } */}
       <main>
         <Content>
           <ButtonText title="Voltar" onPress={handleBack}/>
         <div class="menu">
-
+            <img src={exemploprato} alt="" />
           <div class="description">
             <h1>
               Nome da Refeição
@@ -87,6 +67,7 @@ export function Details(){
           
         </Content>
       </main>
+      <Footer/>
     </Container>
   )
 }
