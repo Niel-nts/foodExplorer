@@ -1,7 +1,7 @@
 import {BackgroundImg, Container, Content } from './Styles'
 import { Header } from '../../components/Header'
 import { useEffect, useState } from 'react'
-import { Section } from '../../components/Section'
+import { SectionGallery } from '../../components/SectionGallery'
 import {Card} from '../../components/Card'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../services/api'
@@ -58,7 +58,7 @@ export function Home(){
             <Header isAdmin={menuCard.isAdmin}/>
             <Content>
                 <BackgroundImg/>
-                <Section title="Refeições">
+                <SectionGallery title="Refeições">
                     {notes.map(note=>(
                         <Card key={String(note.id)}
                         data={note}
@@ -68,21 +68,21 @@ export function Home(){
                         <Card data={menuCard}/>
                         <Card data={menuCard}/>
                         <Card data={menuCard}/>
-                </Section>
-                <Section title="Sobremesas">
+                </SectionGallery>
+                <SectionGallery title="Sobremesas">
                     {notes.map(note=>(
                         <Card key={String(note.id)}
                         data={note}
                         onClick={()=>handleDetails(note.id)}/>
                     ))}
-                </Section>
-                <Section title="Bebidas">
+                </SectionGallery>
+                <SectionGallery title="Bebidas">
                     {notes.map(note=>(
                         <Card key={String(note.id)}
                         data={note}
                         onClick={()=>handleDetails(note.id)}/>
                     ))}
-                </Section>
+                </SectionGallery>
             </Content>
             <Footer/>
         </Container>

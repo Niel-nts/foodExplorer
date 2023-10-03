@@ -11,6 +11,10 @@ export const Container = styled.div`
 
     background-color: ${({theme}) => theme.COLORS.BACKGROUND_800};
 
+    img{
+        width: 176px;
+    }
+
 `
 export const Content = styled.div`
     padding: 0 64px;
