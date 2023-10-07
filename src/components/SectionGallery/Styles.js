@@ -12,6 +12,7 @@ export const Container = styled.section`
     }
     
     .gallery{
+        /* padding: 0 40px; */
         position: relative;
         .arrowLeft{
             button{
@@ -32,7 +33,7 @@ export const Container = styled.section`
                 top: 0;
                 margin-left: 0;
                 height: 100%;
-                width: 300px;
+                width: 100px;
                 background-image: linear-gradient(to left, rgba(255,0,0,0), rgba(0,10,15,1));
             }
         }
@@ -46,7 +47,7 @@ export const Container = styled.section`
                 margin-right: 20px;
                 position: absolute;
                 right: 0;
-
+                
                 img{
                     width: 100%;
                 }
@@ -58,7 +59,7 @@ export const Container = styled.section`
                 top: 0;
                 margin-right: 0;
                 height: 100%;
-                width: 300px;
+                width: 100px;
                 background-image: linear-gradient(to right, rgba(255,0,0,0), rgba(0,10,15,1));
             }
             
@@ -69,6 +70,12 @@ export const Container = styled.section`
             gap: 14px;
             overflow: auto;
         }
+        
+        .scroll-images{
+            overflow-x: hidden;
+            padding: 0 40px;
+        }
     }
+
     
 `
