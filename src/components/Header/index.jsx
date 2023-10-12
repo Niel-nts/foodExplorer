@@ -18,6 +18,9 @@ export function Header({isAdmin=false}){
         navigation("/")
         signOut()
     }
+    function handleNew(){
+        navigation("/new")
+    }
 
     useEffect(()=>{
         async function fetchNotes(){
@@ -36,7 +39,7 @@ export function Header({isAdmin=false}){
                 onChange={(e)=>setSearch(e.target.value)}
                 icon={FiSearch}/>
             </Search>
-            <Button title={isAdmin ? "Novo Prato" : "Pedidos (0)"} onPress="" icon={isAdmin ? '' : VscListUnordered}/>
+            <Button title={isAdmin ? "Novo Prato" : "Pedidos (0)"} onPress={isAdmin ? handleNew : ''} icon={isAdmin ? '' : VscListUnordered}/>
             <Logout onClick={handleSignOut}>
                 <MdOutlineLogout/>
             </Logout>

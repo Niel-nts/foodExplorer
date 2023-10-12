@@ -5,22 +5,28 @@ import backgroundImg from '../../assets/headerHomeBg.png'
 export const Container = styled.div`
     width: 100%;
     height: 100vh;
-
+    
     display: flex;
     flex-direction: column;
-
+    
     background-color: ${({theme}) => theme.COLORS.BACKGROUND_800};
-
+    
     img{
         width: 176px;
     }
-
-`
+    
+    `
 export const Content = styled.div`
-    padding: 0 64px;
     overflow-y: auto;
-    width: 1120px;
-    margin: 0 auto;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .content{
+        width: 1120px;
+        margin: 38px auto;
+    }
 `
 
 export const NewNote = styled(Link)`
@@ -40,7 +46,7 @@ export const NewNote = styled(Link)`
 export const BackgroundImg = styled.div`
     flex: 1;
     height: 380px;
-    margin-right: 24px;
+    margin-bottom: 24px;
     background: url(${backgroundImg}) no-repeat 0px center;
     background-size: contain;
     

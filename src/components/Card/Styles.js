@@ -29,10 +29,21 @@ export const Container = styled.div`
         gap: 15px;
 
     }
+    >:nth-child(2){
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        
+        
+        :nth-child(3){
+            color: #82F3FF;
+        }
+    }
     
 
     >h1{
-        /* flex: 1; */
         font-weight: 700;
         font-size: 24px;
 
@@ -49,7 +60,7 @@ export const Container = styled.div`
         align-items: center;
         justify-content: center;
         gap: 16px;
-
+        
         >div{
             width: 92px;
             height: 48px;

@@ -4,12 +4,13 @@ import { Header } from "../../components/Header/index.jsx"
 import { Section } from "../../components/Section/index.jsx"
 import { Tag } from "../../components/Tag/index.jsx"
 import { ButtonText } from "../../components/ButtonText/index.jsx"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { api } from "../../services/api.js"
 import { CountButton } from "../../components/Count/index.jsx"
 import exemploprato from '../../assets/exemploprato.png' 
 import { Footer } from "../../components/Footer/index.jsx"
+import {BiChevronLeft} from 'react-icons/bi'
 
 export function Details(){
   const params = useParams()
@@ -37,13 +38,20 @@ export function Details(){
       navigate(-1)
     }
   }
+    
+  function handleEdit(){
+    navigate(`/new`)
+  }
+  function handleHome(){
+    navigate(`/`)
+  }
 
   return (
     <Container>
       <Header isAdmin={menuCard.isAdmin}/>
       <main>
         <Content>
-          <ButtonText title="Voltar" onPress={handleBack}/>
+          <Link to="/"><BiChevronLeft/>Voltar</Link>
         <div class="menu">
             <img src={exemploprato} alt="" />
           <div class="description">
@@ -57,10 +65,12 @@ export function Details(){
                 <Tag title='camarao'/>
                 <Tag title='macarrão'/>
                 <Tag title='pimenta'/>
+                <Tag title='aaa'/>
+                <Tag title='aaaaaaaaaaaaaaaaaaaaa'/>
             </Section>
             <div className="buttons">
               <CountButton/>
-              <Button title={menuCard.isAdmin ? "Editar Prato" : `Incluir - R$ ${menuCard.price}`}/>
+              <Button title={menuCard.isAdmin ? "Editar Prato" : `Incluir - R$ ${menuCard.price}`} onPress={ menuCard.isAdmin ? ()=> handleEdit() : ()=> handleHome()}/>
             </div>
           </div>
         </div>

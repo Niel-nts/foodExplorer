@@ -19,12 +19,15 @@ export function Card({data, id, ...rest}){
                 <p>{data.description}</p>
                 <h1>R$ {data.price}</h1>
             </div>
-            <div class="count">
-                <CountButton/>
-                <div>
-                <Button id="add" title="Incluir"/>
-                </div>
-            </div>            
+
+            {!data.isAdmin &&
+                <div class="count">
+                    <CountButton/>
+                    <div>
+                    <Button id="add" title="Incluir"/>
+                    </div>
+                </div>            
+            }
         </Container>
     )
 }

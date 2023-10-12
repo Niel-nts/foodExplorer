@@ -2,12 +2,14 @@ import { Header } from "../../components/Header";
 import { Input } from "../../components/Input";
 import { Section } from "../../components/Section";
 import { TextArea } from "../../components/TextArea";
-import { Container, Form } from "./Styles";
+import { Container, Content, Form } from "./Styles";
 import { NoteItem } from "../../components/NoteItem";
 import { Button } from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react";
 import { useAuth } from "../../hooks/auth";
+import {BiChevronLeft} from 'react-icons/bi'
+import { Footer } from "../../components/Footer";
 
 export function New(){
     const [title, setTitle] = useState("")
@@ -18,6 +20,8 @@ export function New(){
     const [newTag, setNewTag] = useState("")
     const navigate = useNavigate()
     const {sendNewNote} = useAuth()
+    const menuCard = {title: 'Título do prato', description: 'blablabla, bblablabla, blabblabla, blablabbla', price: '49,97', quantity: 1, isAdmin: true}
+
 
     function handleAddLink(){
         setLinks(prevState => [...prevState, newLink])
@@ -29,8 +33,10 @@ export function New(){
     }
 
     function handleAddTag(){
-        setTags(prevState => [...prevState, newTag])
-        setNewTag("")
+        if(newTag != ''){
+            setTags(prevState => [...prevState, newTag])
+            setNewTag("")
+        }
     }
 
     function handleRemoveTag(deleted){
@@ -53,46 +59,60 @@ export function New(){
 
     return(
         <Container>
-            <Header/>
-            <main>
+            <Header isAdmin={menuCard.isAdmin}/>
+            <Content>
                 <Form>
                     <header>
-                        <h1>Criar nota</h1>
-                        <Link to="/">Voltar</Link>
+                        <Link to="/"><BiChevronLeft/>Voltar</Link>
+                        <h1>Adicionar prato</h1>
                     </header>
-                    <Input placeholder="Título" onChange={e=>setTitle(e.target.value)}/>
-                    <TextArea placeholder="Observações" onChange={e=>setDescription(e.target.value)}/>
-                    <Section title="Links úteis">
-                        {links.map((link, index)=>(
-                            <NoteItem 
-                            key={String(index)}
-                            value={link}
-                            onClick={()=>handleRemoveLink(link)}/>
-                        ))}
-                        <NoteItem isNew placeholder="Novo Link"
-                            value={newLink}
-                            onChange={e=>setNewLink(e.target.value)}
-                            onClick={handleAddLink}
-                        />
-                    </Section>
-                    <Section title="Marcadores">
-                        <div className="tags">
-                            {tags.map((tag, index)=>(
-                                <NoteItem 
-                                key={String(index)}
-                                value={tag}
-                                onClick={()=>handleRemoveTag(tag)}/>
-                            ))}
-                            <NoteItem isNew placeholder="Nova Tag"
-                                onChange={e=>setNewTag(e.target.value)}
-                                onClick={handleAddTag}
-                                value={newTag}
-                            />
+                    <div className="section">
+                        <div className="labelInput">
+                            <label htmlFor="">Imagem do prato</label>
+                            <Button title="Selecione imagem" onPress={''}/>
                         </div>
-                    </Section>
+                        <div className="labelInput" id="name">
+                            <label htmlFor="">Nome</label>
+                            <Input placeholder="Ex.: Salada Ceasar" onChange={e=>setTitle(e.target.value)}/>
+                        </div>
+                        <div className="labelInput" id="category">
+                            <label htmlFor="">Categoria</label>
+                            <Input placeholder="Título" onChange={e=>setTitle(e.target.value)}/>
+                        </div>
+                    </div>
+                    <div className="section">
+                        <div className="labelInput">
+                            <label htmlFor="">Ingredientes</label>
+                            <div id="inputTag">
+                                {tags.map((tag, index)=>(
+                                    <NoteItem 
+                                    key={String(index)}
+                                    value={tag}
+                                    onClick={()=>handleRemoveTag(tag)}/>
+                                ))}
+                                <NoteItem isNew placeholder="Adicionar"
+                                    onChange={e=>setNewTag(e.target.value)}
+                                    onClick={handleAddTag}
+                                    value={newTag}
+                                />                            
+                            </div>
+                        </div>
+                        <div className="labelInput" id="price">
+                            <label htmlFor="">Preço</label>
+                            <Input placeholder="R$ 00,00" onChange={e=>setTitle(e.target.value)}/>
+                        </div>
+                    </div>
+                    <div className="labelInput">
+                        <label htmlFor="">Descrição</label>
+                        <TextArea placeholder="Fale brevemente sobre o prato, seus ingredientes e composição" onChange={e=>setDescription(e.target.value)}/>
+                    </div>
+                    
+                    <div className="buttonSalvar">
                     <Button title="Salvar" onPress={handleNewNote}/>
+                    </div>
                 </Form>
-            </main>
+                <Footer/>
+            </Content>
         </Container>
     )
 }

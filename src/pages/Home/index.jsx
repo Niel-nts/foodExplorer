@@ -57,6 +57,7 @@ export function Home(){
         <Container>
             <Header isAdmin={menuCard.isAdmin}/>
             <Content>
+                <div className='content'>
                 <BackgroundImg/>
                 <SectionGallery title="Refeições">
                     {notes.map(note=>(
@@ -83,8 +84,9 @@ export function Home(){
                         onClick={()=>handleDetails(note.id)}/>
                     ))}
                 </SectionGallery>
-            </Content>
+                </div>
             <Footer/>
+            </Content>
         </Container>
     )
 }

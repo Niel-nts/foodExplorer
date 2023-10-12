@@ -3,40 +3,61 @@ import styled from "styled-components";
 export const Container = styled.div`
     display: flex;
     align-items: center;
-
-    background-color: ${({theme, isNew}) => isNew ? "transparent" : theme.COLORS.BACKGROUND_900};
     color: ${({theme}) => theme.COLORS.GRAY_300};
-
-    border: ${({theme, isNew}) => isNew ? `1px dashed ${theme.COLORS.GRAY_300}` : 'none'};
-
-    margin-bottom: 8px;
-    border-radius: 10px;
-    padding-right: 16px;
-
-    >button {
+    
+    .inputNew{
+        display: flex;
+        align-items: center;
+        
+        background-color: ${({theme, isNew}) => isNew ? "transparent" : theme.COLORS.BACKGROUND_900};
+        border: ${({theme, isNew}) => isNew ? `1px dashed ${theme.COLORS.GRAY_300}` : 'none'};
+        border-radius: 10px;
+        padding: 12px;
+        width: 116px;
+        
+        >input {
+            height: 100%;
+            width: 100%;
+            color: ${({theme}) => theme.COLORS.WHITE};
+            
+            background: transparent;
+            
+            border: none;
+            
+            &::placeholder{color: ${({theme}) => theme.COLORS.GRAY_300};};
+        }
+    }
+    
+    button {
+        display: flex;
+        align-items: center;
         border: none;
         background: none;
     }
-
+    
+    
+    .inputSpan{
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 10px;
+        height: 100%;
+        background-color: #76797B;
+    }
+    
     .button-delete{
-        color: ${({theme}) => theme.COLORS.RED};
-    }
-
-    .button-add{
-        color: ${({theme}) => theme.COLORS.ORANGE};
-    }
-
-    >input {
-        height: 56px;
-        width: 100%;
-
-        padding: 12px;
         color: ${({theme}) => theme.COLORS.WHITE};
-
-        background: transparent;
-
-        border: none;
-
-        &::placeholder{color: ${({theme}) => theme.COLORS.GRAY_300};};
     }
+    
+    .button-add{
+        color: ${({theme}) => theme.COLORS.GRAY_300};
+    }
+    
+`
+
+export const Span = styled.span`
+    padding-right: 8px;
+    font-weight: 700;
+    color: ${({theme}) => theme.COLORS.WHITE};
 `

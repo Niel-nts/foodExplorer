@@ -19,6 +19,18 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
 
+    a{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            color: ${({theme}) => theme.COLORS.WHITE};
+            font-size: 20px;
+            svg{
+                font-size: 30px;
+            }        
+        }
+
+
     >button:first-child{
         align-self: start;
     }

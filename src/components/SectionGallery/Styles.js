@@ -10,7 +10,7 @@ export const Container = styled.section`
         font-size: 24px;
         font-weight: 400;
     }
-    
+   
     .gallery{
         /* padding: 0 40px; */
         position: relative;
