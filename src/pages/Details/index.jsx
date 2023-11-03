@@ -19,6 +19,8 @@ export function Details(){
   const navigate = useNavigate()
   const {user} = useAuth()
   const [tags, setTags] = useState([])
+  const [countOrder, setCountOrder] = useState(0)
+  let count = 0
   
   useEffect(()=>{
     async function fetchTags(){
@@ -56,9 +58,20 @@ export function Details(){
     navigate(`/`)
   }
 
+  function calcCount(){
+    if(count>0){
+      count++
+    }
+    if(count == 0){
+      count = 1
+    }
+    count = count + countOrder
+    setCountOrder(count)
+  }
+
   return (
     <Container>
-      <Header isAdmin={user.isAdmin}/>
+      <Header isAdmin={user.isAdmin} countOrders={countOrder}/>
       <main>
         <Content>
           <Link to="/"><BiChevronLeft/>Voltar</Link>
@@ -81,8 +94,8 @@ export function Details(){
             
             <div className="buttons">
               {!user.isAdmin &&
-              <CountButton/>}
-              <Button title={user.isAdmin ? "Editar Prato" : `Incluir - R$ ${data.price}`} onPress={ user.isAdmin ? ()=> handleEdit() : ()=> handleHome()}/>
+              <CountButton counts={c=> count = c}/>}
+              <Button title={user.isAdmin ? "Editar Prato" : `Incluir - R$ ${data.price}`} onPress={ user.isAdmin ? ()=> handleEdit() : ()=> calcCount()}/>
             </div>
           </div>
         </div>
