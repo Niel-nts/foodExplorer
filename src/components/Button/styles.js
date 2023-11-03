@@ -6,7 +6,8 @@ export const Container = styled.button`
     border: 0;
     border-radius: 5px;
 
-    background-color: ${({theme}) => theme.COLORS.RED};
+    /* background-color: ${({theme}) => theme.COLORS.RED}; */
+    background-color: ${({theme, isActive}) => isActive ? theme.COLORS.RED : '#AB4D55'};
     color: ${({theme}) => theme.COLORS.WHITE};
 
     font-weight: 500;

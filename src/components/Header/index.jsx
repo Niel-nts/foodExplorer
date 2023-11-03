@@ -9,27 +9,22 @@ import { Button } from '../Button'
 import { Input } from '../Input'
 import { useEffect, useState } from "react";
 
-export function Header({isAdmin=false}){
+export function Header({isAdmin=false, newMenu, countOrders}){
     const {signOut, user} = useAuth()
     const [search, setSearch] = useState("")
-    const [tagsSelected, setTagsSelected] = useState([])
     const navigation = useNavigate()
+
     function handleSignOut(){
         navigation("/")
         signOut()
     }
     function handleNew(){
-        navigation("/new")
+        if(newMenu){
+            newMenu()
+        }
+        navigation("/new/new")
     }
 
-    useEffect(()=>{
-        async function fetchNotes(){
-            const response = await api.get(`/notes?title=${search}&tags=${tagsSelected}`)
-            setNotes(response.data)
-        }
-
-        fetchNotes()
-    }, [tagsSelected, search])
 
     return(
         <Container>
@@ -39,7 +34,7 @@ export function Header({isAdmin=false}){
                 onChange={(e)=>setSearch(e.target.value)}
                 icon={FiSearch}/>
             </Search>
-            <Button title={isAdmin ? "Novo Prato" : "Pedidos (0)"} onPress={isAdmin ? handleNew : ''} icon={isAdmin ? '' : VscListUnordered}/>
+            <Button title={isAdmin ? "Novo Prato" : `Pedidos (${countOrders})`} onPress={isAdmin ? handleNew : ''} icon={isAdmin ? '' : VscListUnordered}/>
             <Logout onClick={handleSignOut}>
                 <MdOutlineLogout/>
             </Logout>

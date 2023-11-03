@@ -6,83 +6,88 @@ import {Card} from '../../components/Card'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../services/api'
 import { Footer } from '../../components/Footer'
+import { useAuth } from '../../hooks/auth' 
 
 export function Home(){
-    const [tags, setTags] = useState([])
-    const [tagsSelected, setTagsSelected] = useState([])
-    const [search, setSearch] = useState("")
-    const [notes, setNotes] = useState([])
-    const menuCard = {title: 'Título do prato', description: 'blablabla, bblablabla, blabblabla, blablabbla', price: '49,97', quantity: 1, isAdmin: true}
-    const navigate = useNavigate()
-
+    const [refeicao, setRefeicao] = useState([])
+    const [sobremesa, setSobremesa] = useState([])
+    const [bebida, setBebida] = useState([])
+    const [countOrder, setCountOrder] = useState(0)
+    const {user} = useAuth()
 
     useEffect(()=>{
-        async function fetchTags(){
-            const response = await api.get("/tags")
-            setTags(response.data)
-        }
+        async function fetchMenus(){
+            const response = await api.get(`/menus/all`)
+            let ref = []
+            let sob = []
+            let beb = []
+            const menus = response.data.menus.map(menu => {
+                if(menu.category == 'Refeição'){
+                    ref.push(menu)
+                    return
+                }
+                if(menu.category == 'Sobremesa'){
+                    sob.push(menu)
+                    return
+                }
+                if(menu.category == 'Bebida'){
+                    beb.push(menu)
+                    return
+                }
+            })
+                    
+            setRefeicao(ref)
+            setSobremesa(sob)
+            setBebida(beb)
 
-        fetchTags()
+            }
+        
+        if(!refeicao.length){
+            fetchMenus()
+        }
+        
     }, [])
 
-    useEffect(()=>{
-        async function fetchNotes(){
-            const response = await api.get(`/notes?title=${search}&tags=${tagsSelected}`)
-            setNotes(response.data)
+    function calcCount(count){
+        if(count>0){
+            count++
         }
-
-        fetchNotes()
-    }, [tagsSelected, search])
-
-    function handleTagSelected(tagName){
-        if(tagName==""){
-            setTagsSelected([])
-        } else {
-            const alreadySelected = tagsSelected.includes(tagName)
-
-            if(alreadySelected){
-                const filteredTags = tagsSelected.filter(tag => tag !== tagName)
-                setTagsSelected(filteredTags)
-            } else {
-                setTagsSelected(prevState => [...prevState, tagName])
-            }
+        if(count == undefined){
+            count = 1
         }
+        setCountOrder(countOrder+count)
     }
 
-    function handleDetails(id){
-        navigate(`/details/${id}`)
-    }
 
     return(
         <Container>
-            <Header isAdmin={menuCard.isAdmin}/>
+            <Header isAdmin={user.isAdmin} countOrders={countOrder}/>
             <Content>
                 <div className='content'>
                 <BackgroundImg/>
                 <SectionGallery title="Refeições">
-                    {notes.map(note=>(
-                        <Card key={String(note.id)}
-                        data={note}
-                        id={note.id}/>
+                    {refeicao.map(menu=>(
+                        <Card key={String(menu.id)}
+                        data={menu}
+                        id={menu.id}
+                        isAdmin={user.isAdmin} img={`${api.defaults.baseURL}/files/${menu.avatar}`} countsHandle={c=>calcCount(c)}/>
                         ))}
-                        <Card data={menuCard}/>
-                        <Card data={menuCard}/>
-                        <Card data={menuCard}/>
-                        <Card data={menuCard}/>
                 </SectionGallery>
                 <SectionGallery title="Sobremesas">
-                    {notes.map(note=>(
-                        <Card key={String(note.id)}
-                        data={note}
-                        onClick={()=>handleDetails(note.id)}/>
-                    ))}
+                {sobremesa.map(menu=>(
+                        <Card key={String(menu.id)}
+                        data={menu}
+                        id={menu.id}
+                        isAdmin={user.isAdmin} img={`${api.defaults.baseURL}/files/${menu.avatar}`} countsHandle={c=>calcCount(c)}/>
+                        ))}
                 </SectionGallery>
                 <SectionGallery title="Bebidas">
-                    {notes.map(note=>(
-                        <Card key={String(note.id)}
-                        data={note}
-                        onClick={()=>handleDetails(note.id)}/>
-                    ))}
+                {bebida.map(menu=>(
+                        <Card key={String(menu.id)}
+                        data={menu}
+                        id={menu.id}
+                        isAdmin={user.isAdmin} img={`${api.defaults.baseURL}/files/${menu.avatar}`} countsHandle={c=>calcCount(c)}/>
+                        ))}
                 </SectionGallery>
                 </div>
             <Footer/>

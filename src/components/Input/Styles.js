@@ -7,6 +7,7 @@ export const Container = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    padding: 0 16px;
 
     background-color: ${({theme}) => theme.COLORS.BACKGROUND_INPUT};
     color: ${({theme}) => theme.COLORS.GRAY_300};
@@ -28,4 +29,20 @@ export const Container = styled.div`
     >svg{
         margin: 0 0 0 16px;
     }
+
+    >select{
+        width: 100%;
+        color: ${({theme}) => theme.COLORS.WHITE};
+        background: transparent;
+        border: 0;
+
+        &:placeholder {
+            color: ${({theme}) => theme.COLORS.GRAY_300};
+        }
+
+        option {
+            background-color: ${({theme}) => theme.COLORS.BACKGROUND_INPUT};
+        }
+    }
+
 `

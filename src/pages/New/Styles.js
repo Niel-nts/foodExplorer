@@ -22,6 +22,28 @@ export const Container = styled.div`
         grid-area: content;
         overflow-y: auto;
     }
+
+    input[type="file"] {
+        display: none;
+    }
+    #avatarDiv{
+        label{
+            width: 229px;
+            height: 100%;
+            background-color: ${({theme}) => theme.COLORS.BACKGROUND_INPUT};
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+        }
+        
+    }
+
+
     `
 
 export const Form = styled.form`

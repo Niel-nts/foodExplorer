@@ -40,7 +40,7 @@ export const Content = styled.div`
         flex-direction: row;
         align-items: center;
         margin-top: 40px;
-
+        
         >img{
             height: 390px;
             margin-right: 40px;
@@ -50,27 +50,23 @@ export const Content = styled.div`
             width: 100%;
             display: flex;
             flex-direction: column;
+            gap: 24px;
             
             >h1{
                 font-size: 36px;
                 font-weight: 500;
-                padding-top: 64px;
             }
         
             >p{
                 font-size: 16px;
-                margin-top: 16px;
                 text-align: justify;
             }
 
-            >section{
-                border-right: 10px;
-            }
-            
             >.buttons{
                 display: flex;
                 flex-direction: row;
                 gap: 15px;
+                margin-top: 24px;
                 
                 >button{
                     width: 162px;

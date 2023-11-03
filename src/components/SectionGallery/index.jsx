@@ -18,7 +18,7 @@ export function SectionGallery({title, children}){
     scrollLength = scrollImages.scrollWidth - scrollImages.clientWidth;
     buttonArrowLeft = buttonArrowLeftDiv.current
     buttonArrowRight = buttonArrowRightDiv.current
-  }, []);
+  });
   
   function checkScroll() {
     const currentScroll = scrollImages.scrollLeft;
@@ -37,14 +37,14 @@ export function SectionGallery({title, children}){
   window.addEventListener("resize", checkScroll);
 
   function leftScroll() {
-    scrollImages.scrollBy({
+    scrollImagesDiv.current.scrollBy({
       left: -200,
       behavior: "smooth"
     });
   }
 
   function rightScroll() {
-    scrollImages.scrollBy({
+    scrollImagesDiv.current.scrollBy({
       left: 200,
       behavior: "smooth"
     });

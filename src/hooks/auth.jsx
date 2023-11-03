@@ -73,28 +73,65 @@ function AuthProvider({children}){
         setData({})
     }
 
-    async function sendNewNote(title, description, tags, links){
+    async function sendNewMenu(title, description, tags, price, category, avatarFile){
         try{ 
-            await api.post("/notes", {
+            const response = await api.post("/menus", {
                 title,
                 description,
                 tags,
-                links
+                price, 
+                category
             })
-            alert("Nota criada com sucesso")
+
+            if(avatarFile){
+                const fileUploadForm = new FormData()
+                fileUploadForm.append("avatar", avatarFile)
+
+                await api.patch(`/menus/${response.data}`, fileUploadForm)
+            }
+
+            alert("Prato criado com sucesso")
 
         } catch(error) {
             if(error.response){
                 alert(error.response.data.message)
             } else {
-                alert("Nota não cadastrada")
+                alert("Prato não cadastrado")
+            }
+
+        }
+    }
+    async function sendEditMenu(title, description, tags, price, category, id, avatarFile){
+        try{ 
+            await api.put(`/menus/${id}`, {
+                title,
+                description,
+                tags,
+                price, 
+                category
+            })
+
+            if(avatarFile){
+                const fileUploadForm = new FormData()
+                fileUploadForm.append("avatar", avatarFile)
+
+                await api.patch(`/menus/${id}`, fileUploadForm)
+            }
+
+            alert("Prato atualizado com sucesso")
+
+        } catch(error) {
+            if(error.response){
+                alert(error.response.data.message)
+            } else {
+                alert("Prato não atualizado")
             }
 
         }
     }
 
     return(
-        <AuthContext.Provider value={{signIn, user: data.user, signOut, updateProfile, sendNewNote}}>
+        <AuthContext.Provider value={{signIn, user: data.user, signOut, updateProfile, sendNewMenu, sendEditMenu}}>
             {children}
         </AuthContext.Provider>
     )

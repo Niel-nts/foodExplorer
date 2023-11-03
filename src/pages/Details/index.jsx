@@ -11,26 +11,36 @@ import { CountButton } from "../../components/Count/index.jsx"
 import exemploprato from '../../assets/exemploprato.png' 
 import { Footer } from "../../components/Footer/index.jsx"
 import {BiChevronLeft} from 'react-icons/bi'
+import { useAuth } from '../../hooks/auth' 
 
 export function Details(){
   const params = useParams()
-  const [data, setData] = useState(null)
+  const [data, setData] = useState("")
   const navigate = useNavigate()
-  const menuCard = {title: 'Título do prato', description: 'blablabla, bblablabla, blabblabla, blablabbla', price: '49,97', quantity: 1, isAdmin: true}
+  const {user} = useAuth()
+  const [tags, setTags] = useState([])
   
+  useEffect(()=>{
+    async function fetchTags(){
+        const response = await api.get(`/tags/${params.id}`)
+        setTags(response.data)
+    }
+
+    fetchTags()
+}, [])
 
   useEffect(()=>{
-    async function fetchNote(){
-      const response = await api.get(`/notes/${params.id}`)
+    async function fetchMenu(){
+      const response = await api.get(`/menus/${params.id}`)
       setData(response.data)
     }
-    fetchNote()
+    fetchMenu()
   }, [])
-
+  
   function handleBack(){
     navigate(-1)
   }
-
+  
   async function handleRemove(){
     const confirm = window.confirm("Deseja realmente remover a nota?")
     if(confirm){
@@ -38,9 +48,9 @@ export function Details(){
       navigate(-1)
     }
   }
-    
+  
   function handleEdit(){
-    navigate(`/new`)
+    navigate(`/new/${params.id}`)
   }
   function handleHome(){
     navigate(`/`)
@@ -48,29 +58,31 @@ export function Details(){
 
   return (
     <Container>
-      <Header isAdmin={menuCard.isAdmin}/>
+      <Header isAdmin={user.isAdmin}/>
       <main>
         <Content>
           <Link to="/"><BiChevronLeft/>Voltar</Link>
         <div class="menu">
-            <img src={exemploprato} alt="" />
+            <img src={`${api.defaults.baseURL}/files/${data.avatar}`} alt="" />
           <div class="description">
             <h1>
-              Nome da Refeição
+              {data.title}
+
             </h1>
             <p>
-              Comida feita com tais e tais ingredientes e pá
+              {data.description}
             </p>
-            <Section>
-                <Tag title='camarao'/>
-                <Tag title='macarrão'/>
-                <Tag title='pimenta'/>
-                <Tag title='aaa'/>
-                <Tag title='aaaaaaaaaaaaaaaaaaaaa'/>
-            </Section>
+            <div>
+                {tags.map(
+                  tag => 
+                  <Tag title={tag.name}/>
+                )}
+            </div>
+            
             <div className="buttons">
-              <CountButton/>
-              <Button title={menuCard.isAdmin ? "Editar Prato" : `Incluir - R$ ${menuCard.price}`} onPress={ menuCard.isAdmin ? ()=> handleEdit() : ()=> handleHome()}/>
+              {!user.isAdmin &&
+              <CountButton/>}
+              <Button title={user.isAdmin ? "Editar Prato" : `Incluir - R$ ${data.price}`} onPress={ user.isAdmin ? ()=> handleEdit() : ()=> handleHome()}/>
             </div>
           </div>
         </div>

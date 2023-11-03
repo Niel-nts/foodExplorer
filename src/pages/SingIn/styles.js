@@ -41,6 +41,10 @@ export const Form = styled.form`
     :nth-last-child(2){
         margin-top: 32px;
     }
+
+    button{
+        height: 48px;
+    }
 `
 
 export const BackgroundImg = styled.div`

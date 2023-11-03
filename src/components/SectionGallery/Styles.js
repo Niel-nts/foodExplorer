@@ -69,6 +69,7 @@ export const Container = styled.section`
             flex-direction: row;
             gap: 14px;
             overflow: auto;
+            overflow-y: hidden;
         }
         
         .scroll-images{
