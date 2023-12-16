@@ -15,38 +15,38 @@ export function Home(){
     const [countOrder, setCountOrder] = useState(0)
     const {user} = useAuth()
 
-    useEffect(()=>{
-        async function fetchMenus(){
-            const response = await api.get(`/menus/all`)
-            let ref = []
-            let sob = []
-            let beb = []
-            const menus = response.data.menus.map(menu => {
-                if(menu.category == 'Refeição'){
-                    ref.push(menu)
-                    return
-                }
-                if(menu.category == 'Sobremesa'){
-                    sob.push(menu)
-                    return
-                }
-                if(menu.category == 'Bebida'){
-                    beb.push(menu)
-                    return
-                }
-            })
-                    
-            setRefeicao(ref)
-            setSobremesa(sob)
-            setBebida(beb)
+    async function fetchMenus(data){
+        let menus 
+        let ref = []
+        let sob = []
+        let beb = []
 
-            }
-        
-        if(!refeicao.length){
-            fetchMenus()
+        if(!data){
+            const response = await api.get(`/menus/all`)
+            menus = response.data.menus
+        } else {
+            menus = data
         }
-        
-    }, [])
+
+        for(let i = 0; i < menus.length; i++){
+            if(menus[i].category == 'Refeição'){
+                ref.push(menus[i])
+            }
+            if(menus[i].category == 'Sobremesa'){
+                sob.push(menus[i])
+            }
+            if(menus[i].category == 'Bebida'){
+                beb.push(menus[i])
+            }
+        }
+                
+        setRefeicao(ref)
+        setSobremesa(sob)
+        setBebida(beb)
+
+    }
+
+    useEffect(()=>{ fetchMenus() }, [])
 
     function calcCount(count){
         if(count>0){
@@ -58,13 +58,19 @@ export function Home(){
         setCountOrder(countOrder+count)
     }
 
+    async function getSearch(title){
+        const response = await api.get(`/menus?title=${title}`)
+        fetchMenus(response.data)
+    }
+
 
     return(
         <Container>
-            <Header isAdmin={user.isAdmin} countOrders={countOrder}/>
+            <Header isAdmin={user.isAdmin} countOrders={countOrder} getSearch={getSearch}/>
             <Content>
                 <div className='content'>
                 <BackgroundImg/>
+                {refeicao.length > 0 && 
                 <SectionGallery title="Refeições">
                     {refeicao.map(menu=>(
                         <Card key={String(menu.id)}
@@ -72,15 +78,17 @@ export function Home(){
                         id={menu.id}
                         isAdmin={user.isAdmin} img={`${api.defaults.baseURL}/files/${menu.avatar}`} countsHandle={c=>calcCount(c)}/>
                         ))}
-                </SectionGallery>
+                </SectionGallery> }
+                {sobremesa.length > 0 && 
                 <SectionGallery title="Sobremesas">
                 {sobremesa.map(menu=>(
-                        <Card key={String(menu.id)}
+                    <Card key={String(menu.id)}
                         data={menu}
                         id={menu.id}
                         isAdmin={user.isAdmin} img={`${api.defaults.baseURL}/files/${menu.avatar}`} countsHandle={c=>calcCount(c)}/>
                         ))}
-                </SectionGallery>
+                </SectionGallery> }
+                {bebida.length > 0 && 
                 <SectionGallery title="Bebidas">
                 {bebida.map(menu=>(
                         <Card key={String(menu.id)}
@@ -88,7 +96,7 @@ export function Home(){
                         id={menu.id}
                         isAdmin={user.isAdmin} img={`${api.defaults.baseURL}/files/${menu.avatar}`} countsHandle={c=>calcCount(c)}/>
                         ))}
-                </SectionGallery>
+                </SectionGallery> }
                 </div>
             <Footer/>
             </Content>

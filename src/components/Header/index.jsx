@@ -9,9 +9,10 @@ import { Button } from '../Button'
 import { Input } from '../Input'
 import { useEffect, useState } from "react";
 
-export function Header({isAdmin=false, newMenu, countOrders}){
+export function Header({isAdmin=false, newMenu, countOrders, getSearch}){
     const {signOut, user} = useAuth()
-    const [search, setSearch] = useState("")
+    // const [search, setSearch] = useState("")
+    let search
     const navigation = useNavigate()
 
     function handleSignOut(){
@@ -24,14 +25,26 @@ export function Header({isAdmin=false, newMenu, countOrders}){
         }
         navigation("/new/new")
     }
+       
+    function handleSearch(title){
 
+        setInterval(() => {
+            if(search == title){
+                getSearch(title)
+                search = ''
+            }
+        }, 2000);
+        
+        search = title
+        
+    }
 
     return(
         <Container>
             <BackgroundImg/>
             <Search>
                 <Input placeholder="Busque por pratos ou ingredientes" 
-                onChange={(e)=>setSearch(e.target.value)}
+                onChange={(e)=>handleSearch(e.target.value)}
                 icon={FiSearch}/>
             </Search>
             <Button title={isAdmin ? "Novo Prato" : `Pedidos (${countOrders})`} onPress={isAdmin ? handleNew : ''} icon={isAdmin ? '' : VscListUnordered}/>
