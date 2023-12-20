@@ -117,9 +117,11 @@ export function New(){
         navigate(-1)
     }
 
+    function notImplemented(data){}
+
     return(
         <Container>
-            <Header isAdmin={user.isAdmin} newMenu={cleanPage}/>
+            <Header isAdmin={user.isAdmin} newMenu={cleanPage} dataSearch={notImplemented}/>
             <Content>
                 <Form>
                     <header>

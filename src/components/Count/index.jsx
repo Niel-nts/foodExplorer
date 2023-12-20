@@ -1,18 +1,21 @@
 import {Container, ButtonAdd} from './Styles'
 import { AiOutlineLine, AiOutlinePlus } from 'react-icons/ai' 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function CountButton({counts}){
+    let num
     let [count, setCount] = useState(1);
 
     function incrementCount(){
-        counts(count++)
-        setCount(count)
+        num = count + 1
+        setCount(num)
+        counts(num)
     }
     function decrementCount(){
         if(count > 1){
-            counts(count--)
-            setCount(count)
+            num = count - 1
+            setCount(num)
+            counts(num)
         }
     }
 

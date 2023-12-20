@@ -21,15 +21,11 @@ export function SingIn(){
                 <h1>Faça login</h1>
                 <p>Email</p>
                 <Input placeholder="Exemplo: exemplo@exemplo.com.br" type="text" 
-                    onChange={
-                        e => setEmail(e.target.value)
-                    }
+                    textInput={setEmail}
                     />
                 <p>Senha</p>
                 <Input placeholder="No mínimo 6 caracteres" type="password" 
-                    onChange={
-                        e => setPassword(e.target.value)
-                    }
+                    textInput={setPassword}
                 />
                 <Button title="Entrar" onPress={handleSignIn}/>
                 <Link to="/register">Criar uma conta</Link>

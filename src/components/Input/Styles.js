@@ -4,6 +4,7 @@ export const Container = styled.div`
     width: 100%;
     height: 56px;
     display: flex;
+    position: relative;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -15,19 +16,21 @@ export const Container = styled.div`
     border-radius: 5px;
 
     > input {
-        padding: 8px;
+        position: absolute;
+        padding: 0 12px;
         width: 100%;
         color: ${({theme}) => theme.COLORS.WHITE};
         background: transparent;
         border: 0;
-
-        &:placeholder {
-            color: ${({theme}) => theme.COLORS.GRAY_300};
+        text-align: center;
+        
+        &::placeholder {
+            text-align: center; 
         }
     }
-
-    >svg{
-        margin: 0 0 0 16px;
+    
+    >svg{         
+        margin-right: 260px;
     }
 
     >select{

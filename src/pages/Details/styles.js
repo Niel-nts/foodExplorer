@@ -3,38 +3,54 @@ import styled from 'styled-components'
 export const Container = styled.div`
     width: 100%;
     height: 100vh;
-    color: ${({theme}) => theme.COLORS.WHITE};
     
-    
-    `
-
-
-export const Content = styled.div`
-    padding: 40px 64px 0;
-    overflow-y: auto;
-    height: calc(100vh - 105px - 77px);
-    width: 1120px;
-    margin: 0 auto;
-
     display: flex;
     flex-direction: column;
+    
+    background-color: ${({theme}) => theme.COLORS.BACKGROUND_800};
+    color: ${({theme}) => theme.COLORS.WHITE};
 
-    a{
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            color: ${({theme}) => theme.COLORS.WHITE};
-            font-size: 20px;
-            svg{
-                font-size: 30px;
-            }        
+    overflow: hidden;
+    position: relative;
+
+    .contentFooter{
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        >:nth-last-child(1){
+            position: absolute;
+            bottom: 0;
+            left: 0;
         }
+    }
 
+    
+    `
+    
+    
+    export const Content = styled.div`
+    padding: 40px 64px 0;
+    overflow-y: auto;
+    width: 1120px;
+    margin: 0 auto;
+    
+    display: flex;
+    flex-direction: column;
+    
+    a{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        color: ${({theme}) => theme.COLORS.WHITE};
+        font-size: 20px;
+        svg{
+            font-size: 30px;
+        }        
+    }
 
     >button:first-child{
         align-self: start;
     }
-
     >.menu{
         display: flex;
         flex-direction: row;

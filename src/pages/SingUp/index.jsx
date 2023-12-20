@@ -36,22 +36,13 @@ export function SingUp(){
                 <h1>Crie sua conta</h1>
                 <p>Seu nome</p>
                 <Input placeholder="Exemplo: Maria da Silva" type="text" 
-                    onChange={
-                        e => setName(e.target.value)
-                    }
-                    />
+                   textInput={setName}/>
                 <p>Email</p>
                 <Input placeholder="Exemplo: exemplo@exemplo.com.br" type="text" 
-                    onChange={
-                        e => setEmail(e.target.value)
-                    }
-                    />
+                    textInput={setEmail}/>
                 <p>Senha</p>
                 <Input placeholder="No mínimo 6 caracteres" type="password" 
-                    onChange={
-                        e => setPassword(e.target.value)
-                    }
-                />
+                    textInput={setPassword}/>
                 <Button title="Cadastrar"
                     onPress={handleSignUp}
                 />

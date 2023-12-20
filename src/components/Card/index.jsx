@@ -5,17 +5,24 @@ import { useNavigate } from 'react-router-dom';
 import exemploprato from '../../assets/exemploprato.png' 
 import { useEffect, useState } from 'react'
 
-export function Card({data, id, isAdmin, img, countsHandle, ...rest}){
+export function Card({data, id, isAdmin, img, handleOrders, ...rest}){
     const navigate = useNavigate()
-    const [count, setCount] = useState()
+    const [count, setCount] = useState(1)
 
     function handleDetails(id){
         navigate(`/details/${id}`)
     }
 
-    function handleCount(){
-        countsHandle(count)
+    function sendOrders(){
+        handleOrders({
+            count: count,
+            id: data.id,
+            title: data.title,
+            price: data.price
+        })
     }
+
+    useEffect (() => {}, [count])    
 
     return(
         <Container {...rest}>
@@ -28,9 +35,9 @@ export function Card({data, id, isAdmin, img, countsHandle, ...rest}){
 
             {!isAdmin &&
                 <div class="count">
-                    <CountButton counts={c=>setCount(c)}/>
+                    <CountButton counts={setCount}/>
                     <div>
-                    <Button id="add" title="Incluir" onPress={handleCount}/>
+                    <Button id="add" title="Incluir" onPress={sendOrders}/>
                     </div>
                 </div>            
             }

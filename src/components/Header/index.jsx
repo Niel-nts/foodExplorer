@@ -7,13 +7,15 @@ import { VscListUnordered } from 'react-icons/vsc'
 import { api } from "../../services/api";
 import { Button } from '../Button'
 import { Input } from '../Input'
-import { useEffect, useState } from "react";
+import {useState, useEffect } from "react";
 
-export function Header({isAdmin=false, newMenu, countOrders, getSearch}){
+export function Header({isAdmin=false, newMenu, dataSearch, newOrders={}}){
     const {signOut, user} = useAuth()
-    // const [search, setSearch] = useState("")
-    let search
     const navigation = useNavigate()
+    const [countOrders, setCountOrders] = useState(0)
+    const [orders, setOrders] = useState([])
+    const [buttonText, setButtonText] = useState(isAdmin ? "Novo Prato" : `Pedidos (${countOrders})`)
+    const [textSearch, setTextSearch] = useState('')
 
     function handleSignOut(){
         navigation("/")
@@ -26,28 +28,86 @@ export function Header({isAdmin=false, newMenu, countOrders, getSearch}){
         navigation("/new/new")
     }
        
-    function handleSearch(title){
-
-        setInterval(() => {
-            if(search == title){
-                getSearch(title)
-                search = ''
+    function enableSearch(){
+        if(functionSearch){
+            if( textSearch == undefined || textSearch == ''){
+                if(textSearch == ''){
+                    functionSearch(textSearch)
+                }
+                if(isAdmin){
+                    setButtonText("Novo Prato") 
+                } else {
+                    setButtonText(`Pedidos (${countOrders ? countOrders : 0})`)
+                }
+            } else {
+                setButtonText('Pesquisar')
             }
-        }, 2000);
+        }
+    }
+    
+    useEffect(() => {
+        enableSearch()
+     }, [textSearch])
+
+    useEffect(() => {
+        organizeOrders()
+    }, [newOrders])
+
+    useEffect(() => {
+        if(!isAdmin){
+            setButtonText(`Pedidos (${countOrders ? countOrders : 0})`)
+        }
+    }, [countOrders])
+    
+    function chooseFunction(){
+        if(buttonText == 'Pesquisar'){
+            functionSearch(textSearch)
+        }
+        if(buttonText != 'Pesquisar' && isAdmin){
+            handleNew() 
+        }
+    }
+
+    async function functionSearch(title){
+        if(title == ''){
+            dataSearch(title)
+        } else {
+            const response = await api.get(`/menus?title=${title}`)
+            dataSearch(response.data)
+        }
+    }
+    
+    function organizeOrders(){
+        let orderExist = false;
+        let ordersUpdate = orders.length == 0 ? [] : orders
+        let count = newOrders.count + (countOrders ? countOrders : 0); 
+        if(ordersUpdate.length > 0){
+            for(let i = 0; i < ordersUpdate.length; i++){
+                if(ordersUpdate[i].id == newOrders.id){
+                    ordersUpdate[i].count = ordersUpdate[i].count + newOrders.count
+                    orderExist = true;
+                } 
+            }
+        } else {
+            count = newOrders.count
+        }
         
-        search = title
-        
+        if (!orderExist){
+            ordersUpdate.push(newOrders)
+        }
+        setOrders(ordersUpdate)
+        setCountOrders(count)       
     }
 
     return(
         <Container>
             <BackgroundImg/>
             <Search>
-                <Input placeholder="Busque por pratos ou ingredientes" 
-                onChange={(e)=>handleSearch(e.target.value)}
+                <Input placeholder='Busque por pratos ou ingredientes' 
+                textInput={setTextSearch}
                 icon={FiSearch}/>
             </Search>
-            <Button title={isAdmin ? "Novo Prato" : `Pedidos (${countOrders})`} onPress={isAdmin ? handleNew : ''} icon={isAdmin ? '' : VscListUnordered}/>
+            <Button title={buttonText} onPress={chooseFunction} icon={isAdmin || buttonText == 'Pesquisar' ? '' : VscListUnordered}/>
             <Logout onClick={handleSignOut}>
                 <MdOutlineLogout/>
             </Logout>

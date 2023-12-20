@@ -1,17 +1,16 @@
 import {Container, Content} from "./styles.js"
 import { Button } from "../../components/Button/index.jsx"
 import { Header } from "../../components/Header/index.jsx"
-import { Section } from "../../components/Section/index.jsx"
 import { Tag } from "../../components/Tag/index.jsx"
-import { ButtonText } from "../../components/ButtonText/index.jsx"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { api } from "../../services/api.js"
 import { CountButton } from "../../components/Count/index.jsx"
-import exemploprato from '../../assets/exemploprato.png' 
 import { Footer } from "../../components/Footer/index.jsx"
 import {BiChevronLeft} from 'react-icons/bi'
 import { useAuth } from '../../hooks/auth' 
+import { SectionGallery } from "../../components/SectionGallery/index.jsx"
+import { ContentGallery } from "../../components/ContentGallery/index.jsx"
 
 export function Details(){
   const params = useParams()
@@ -19,9 +18,39 @@ export function Details(){
   const navigate = useNavigate()
   const {user} = useAuth()
   const [tags, setTags] = useState([])
-  const [countOrder, setCountOrder] = useState(0)
-  let count = 0
-  
+  const [orders, setOrders] = useState({})
+  const [count, setCount] = useState(1)
+  const [refeicao, setRefeicao] = useState([])
+  const [sobremesa, setSobremesa] = useState([])
+  const [bebida, setBebida] = useState([])
+  const [hideDetails, setHideDetails] = useState(true)
+
+  function fetchMenus(data){
+    if(data != undefined){
+      let menus = data
+      let ref = []
+      let sob = []
+      let beb = []
+
+      for(let i = 0; i < menus.length; i++){
+          if(menus[i].category == 'Refeição'){
+              ref.push(menus[i])
+          }
+          if(menus[i].category == 'Sobremesa'){
+              sob.push(menus[i])
+          }
+          if(menus[i].category == 'Bebida'){
+              beb.push(menus[i])
+          }
+      }
+              
+      setRefeicao(ref)
+      setSobremesa(sob)
+      setBebida(beb)
+      setHideDetails(true)
+    }
+  }
+    
   useEffect(()=>{
     async function fetchTags(){
         const response = await api.get(`/tags/${params.id}`)
@@ -29,7 +58,7 @@ export function Details(){
     }
 
     fetchTags()
-}, [])
+  }, [])
 
   useEffect(()=>{
     async function fetchMenu(){
@@ -39,70 +68,64 @@ export function Details(){
     fetchMenu()
   }, [])
   
-  function handleBack(){
-    navigate(-1)
-  }
-  
-  async function handleRemove(){
-    const confirm = window.confirm("Deseja realmente remover a nota?")
-    if(confirm){
-      await api.delete(`/notes/${params.id}`)
-      navigate(-1)
-    }
-  }
-  
   function handleEdit(){
     navigate(`/new/${params.id}`)
   }
-  function handleHome(){
-    navigate(`/`)
+  
+  function sendOrders(){
+    setOrders({
+      count: count,
+      id: data.id,
+      title: data.title,
+      price: data.price
+    })
   }
-
-  function calcCount(){
-    if(count>0){
-      count++
+  
+  function getSearch(result){
+    if(result == ''){
+      setHideDetails(false)
+    } else {
+      fetchMenus(result)
     }
-    if(count == 0){
-      count = 1
-    }
-    count = count + countOrder
-    setCountOrder(count)
   }
 
   return (
     <Container>
-      <Header isAdmin={user.isAdmin} countOrders={countOrder}/>
-      <main>
-        <Content>
+      <Header isAdmin={user.isAdmin} newOrders={orders} dataSearch={getSearch}/>
+      <div className="contentFooter">
+        {hideDetails ? null : (<Content>
           <Link to="/"><BiChevronLeft/>Voltar</Link>
-        <div class="menu">
+          <div class="menu">
             <img src={`${api.defaults.baseURL}/files/${data.avatar}`} alt="" />
-          <div class="description">
-            <h1>
-              {data.title}
-
-            </h1>
-            <p>
-              {data.description}
-            </p>
-            <div>
+            <div class="description">
+              <h1>
+                {data.title}
+              </h1>
+              <p>
+                {data.description}
+              </p>
+              <div>
                 {tags.map(
                   tag => 
                   <Tag title={tag.name}/>
                 )}
-            </div>
-            
-            <div className="buttons">
-              {!user.isAdmin &&
-              <CountButton counts={c=> count = c}/>}
-              <Button title={user.isAdmin ? "Editar Prato" : `Incluir - R$ ${data.price}`} onPress={ user.isAdmin ? ()=> handleEdit() : ()=> calcCount()}/>
+              </div>
+        
+              <div className="buttons">
+                {!user.isAdmin &&
+                <CountButton counts={setCount}/>}
+                <Button title={user.isAdmin ? "Editar Prato" : `Incluir - R$ ${data.price}`} onPress={ user.isAdmin ? handleEdit : sendOrders}/>
+              </div>
             </div>
           </div>
-        </div>
-          
-        </Content>
-      </main>
-      <Footer/>
+        </Content>)}
+
+        {!hideDetails ? null : (<ContentGallery refeicao={refeicao} setOrders={setOrders} sobremesa={sobremesa} bebida={bebida} user={user}/>)}
+        
+        <Footer/>
+      </div>
+
     </Container>
+    
   )
 }
